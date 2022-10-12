@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>当前求和为：{{ sum }}</h1>
+    <h1>当前求和为：{{ $store.state.sum }}</h1>
+    <h2>放大10倍后的和为：{{ $store.getters.bigSum }}</h2>
     <select v-model.number="n">
       <option value="1">1</option>
       <option value="2">2</option>
@@ -19,27 +20,25 @@ export default {
   data() {
     return {
       n: 1,
-      sum: 0,
     };
   },
   methods: {
     increment() {
-      this.sum += this.n;
+      this.$store.commit("ADD", this.n);
     },
     decrement() {
-      this.sum -= this.n;
+      this.$store.commit("REDUCE", this.n);
     },
     incrementOdd() {
-      if (this.sum % 2) {
-        this.sum += this.n;
-      }
+      this.$store.dispatch("addOdd", this.n);
     },
     incrementWait() {
-      setTimeout(() => {
-        this.sum += this.n;
-      }, 1000);
+      this.$store.dispatch("addWait", this.n);
     },
   },
+  mounted() {
+    console.log(this.$store)
+  }
 };
 </script>
 
